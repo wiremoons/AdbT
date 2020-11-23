@@ -2,7 +2,7 @@
 
 # What is 'adbt'?
 
-Description : CLI tool to manage an SQlite database of acronym.   
+Description : CLI tool to manage an SQlite database of acronyms.   
 
 A small command line application called '`adbt`' (which is an acronym for
 '*Acronym DataBase Tool*') which can be used to store, look up, change, or
