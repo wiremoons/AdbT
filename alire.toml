@@ -1,0 +1,9 @@
+name = "adbt"
+description = "CLI tool to manage an SQlite database of acronyms."
+version = "0.0.1"
+
+authors = ["Simon Rowe"]
+maintainers = ["Simon Rowe <simon@wiremoons.com>"]
+maintainers-logins = ["wiremoons"]
+
+executables = ["adbt"]
