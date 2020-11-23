@@ -21,12 +21,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:      
     # Install Ubuntu OS updates
-    #- name: Install OS updates, security fixes etc
-    #  run: |
-        #echo "Installing OS updates, security fixes etc"
-        #sudo apt update
-        #sudo apt -y upgrade
-        #sudo apt -y autoremove
+    - name: Install OS updates, security fixes etc
+      run: |
+        echo "Installing OS updates, security fixes etc"
+        sudo apt update
+        sudo apt -y upgrade
+        sudo apt -y autoremove
     
     # Install dependencies and Nim language
     - name: Install dependencies and Ada language compiler
@@ -42,7 +42,7 @@ jobs:
         gnat --version
         gnatmake --version
         gprbuild --version
-        gnatls --version
+        gnatls -v
         
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
