@@ -95,6 +95,7 @@ package body Show_Version is
 
                   --  get the identified line from the file
                   OS_Name := To_Unbounded_String (Line);
+                  pragma Debug (New_Line (Standard_Error, 1));
                   pragma Debug
                     (Put_Line
                        (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
@@ -180,7 +181,7 @@ package body Show_Version is
       Put_Line ("'.");
       New_Line (1);
       Put_Line ("For licenses and further information visit:");
-      Put_Line (" - https://github.com/wiremoons/acronym-db-tool/");
+      Put_Line (" - https://github.com/wiremoons/AdbT/");
       New_Line (1);
       Put_Line ("All is well.");
 
