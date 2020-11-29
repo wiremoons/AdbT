@@ -1,4 +1,4 @@
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- Package     : Locate_DB                                                   --
 -- Description : Find the acronyms database file for use with the program.   --
 -- Author      : Simon Rowe <simon@wiremoons.com>                            --

@@ -17,6 +17,9 @@
 --   gprclean
 --
 
+-- ensure support for the GNAT Collection SQLite packages:
+with "gnatcoll_sqlite.gpr";
+
 project AdbT is
 
    -- set up for 'debug' and 'release' build options
