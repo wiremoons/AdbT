@@ -5,8 +5,6 @@
 -- License     : MIT Open Source.                                            --
 -------------------------------------------------------------------------------
 
-
-
 package Cmd_Flags is
 
    function Command_Line_Flags_Exist return Boolean;
