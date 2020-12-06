@@ -15,18 +15,18 @@ with Manage_DB;
 
 procedure AdbT is
 
-   dbfile : Unbounded_String := Null_Unbounded_String;
+   Dbfile : Unbounded_String := Null_Unbounded_String;
 
---------------------------
--- MAIN
---------------------------
+   --------------------------
+   -- MAIN
+   --------------------------
 begin
 
    --  print info on how to compile a 'release' version
    pragma Debug
-     (Put_Line
-        (Standard_Error,
-         "DEBUG: build a 'release' version with: gprclean && gprbuild -XBUILD=release"));
+      (Put_Line
+          (Standard_Error,
+           "DEBUG: build a 'release' version with: gprclean && gprbuild -XBUILD=release"));
 
    --  check for any user provided command line flags
    if Cmd_Flags.Command_Line_Flags_Exist then
@@ -35,13 +35,13 @@ begin
    end if;
 
    -- locate a database file
-   if Locate_DB.Get_DB_Filename (dbfile) then
-      Put_Line ("Got database file name: '" & To_String (dbfile) & "'");
-      Manage_DB.Run_DB_Query(To_String(dbfile));
+   if Locate_DB.Get_DB_Filename (Dbfile) then
+      Put_Line ("Database filename: '" & To_String (Dbfile) & "'");
+      Manage_DB.Run_DB_Query (To_String (Dbfile));
    else
       Put_Line (Standard_Error, "ERROR: no database file found. Exit.");
-      Set_Exit_Status (Failure);
-      -- return; -- program execution completed as no database exists
+      Set_Exit_Status (Failure); -- failed as no database found
+      return;
    end if;
 
    -- execute the application
