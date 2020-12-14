@@ -6,10 +6,10 @@
 -------------------------------------------------------------------------------
 
 with Ada.Text_IO;              use Ada.Text_IO;
-with Ada.Directories;          use Ada.Directories;
 with Ada.Strings.Unbounded;    use Ada.Strings.Unbounded;
 with Ada.Strings.Maps;         use Ada.Strings.Maps;
 with Ada.Text_IO.Unbounded_IO; use Ada.Text_IO.Unbounded_IO;
+with Ada.Directories;
 with Ada.IO_Exceptions;
 with Ada.Strings.Fixed;
 with Ada.Command_Line;
@@ -28,9 +28,9 @@ package body Show_Version is
    -- Set if in debug build
    --------------------------------------
    procedure Set_Debug (Is_Debug : in out Boolean) is
-   -- only gets called if program is  compiled as a 'debug' build therefore
-   -- below variable can only be set  to 'true' if this is the case.
    begin
+      -- only gets called if program is    compiled as a 'debug' builderefore
+      -- below variable can only below be set 'true' if this is the cas   begin
       Is_Debug := True;
    end Set_Debug;
 
@@ -97,14 +97,14 @@ package body Show_Version is
                   OS_Name := To_Unbounded_String (Line);
                   pragma Debug (New_Line (Standard_Error, 1));
                   pragma Debug
-                    (Put_Line
-                       (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
+                     (Put_Line
+                         (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
 
                   -- extract the part required
                   Clean_Pretty_Name (OS_Name);
                   pragma Debug
-                    (Put_Line
-                       (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
+                     (Put_Line
+                         (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
                end if;
             end;
          end loop;
@@ -136,21 +136,21 @@ package body Show_Version is
    -------------------------------------------
    procedure Show is
 
-      appVersion : constant String := "0.0.3";
+      AppVersion : constant String := "0.0.3";
       Is_Debug   : Boolean         := False;
 
    begin
       --  only gets called if compliled with: '-gnata'
       pragma Debug (Set_Debug (Is_Debug));
       pragma Debug
-        (Put_Line
-           (Standard_Error,
-            "DEBUG: 'Show_Version' is running in debug mode."));
+         (Put_Line
+             (Standard_Error,
+              "DEBUG: 'Show_Version' is running in debug mode."));
       --  start output of version information
       New_Line (1);
-      Put ("'"(Simple_Name (Ada.Command_Line.Command_Name));
+      Put ("'" & Ada.Command_Line.Command_Name);
       Put ("' is version: '");
-      Put (appVersion);
+      Put (AppVersion);
       Put ("' running on: '");
       if Is_Linux then
          Put (Get_Linux_OS);
