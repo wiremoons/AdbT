@@ -28,8 +28,8 @@ package body Show_Version is
    -- Set if in debug build
    --------------------------------------
    procedure Set_Debug (Is_Debug : in out Boolean) is
-   -- only gets called if program is compiled as a 'debug' build therefore
-   -- below variable can only be set to 'true' if this is the case.
+   -- only gets called if program is  compiled as a 'debug' build therefore
+   -- below variable can only be set  to 'true' if this is the case.
    begin
       Is_Debug := True;
    end Set_Debug;
@@ -136,7 +136,7 @@ package body Show_Version is
    -------------------------------------------
    procedure Show is
 
-      appVersion : constant String := "0.0.2";
+      appVersion : constant String := "0.0.3";
       Is_Debug   : Boolean         := False;
 
    begin
@@ -148,8 +148,7 @@ package body Show_Version is
             "DEBUG: 'Show_Version' is running in debug mode."));
       --  start output of version information
       New_Line (1);
-      Put ("'");
-      Put (Simple_Name (Ada.Command_Line.Command_Name));
+      Put ("'"(Simple_Name (Ada.Command_Line.Command_Name));
       Put ("' is version: '");
       Put (appVersion);
       Put ("' running on: '");
