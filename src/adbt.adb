@@ -12,10 +12,12 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Cmd_Flags;
 with Locate_DB;
 with Manage_DB;
+with GNATCOLL.SQL.Exec;
 
 procedure AdbT is
 
    Dbfile : Unbounded_String := Null_Unbounded_String;
+   DB     : GNATCOLL.SQL.Exec.Database_Connection;
 
    --------------------------
    -- MAIN
@@ -37,7 +39,9 @@ begin
    -- locate a database file
    if Locate_DB.Get_DB_Filename (Dbfile) then
       Put_Line ("Database filename: '" & To_String (Dbfile) & "'");
-      Manage_DB.Run_DB_Query (To_String (Dbfile));
+      DB := (Manage_DB.Set_SQLite_Handle ( To_String (Dbfile)));
+      Put_Line ("SQLite version: '" & Manage_DB.Get_SQLite_Version (DB) & "'");
+      Manage_DB.Run_DB_Query (DB);
    else
       Put_Line (Standard_Error, "ERROR: no database file found. Exit.");
       Set_Exit_Status (Failure); -- failed as no database found

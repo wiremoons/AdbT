@@ -5,8 +5,13 @@
 -- License     : MIT Open Source.                                            --
 -------------------------------------------------------------------------------
 
-package manage_db is
+with GNATCOLL.SQL;
+with GNATCOLL.SQL.Exec; use GNATCOLL.SQL.Exec;
 
-   procedure Run_DB_Query (dbfile : String);
+package Manage_Db is
 
-end manage_db;
+   function Set_SQLite_Handle (Dbfile : String) return Database_Connection;
+   procedure Run_DB_Query (DB : Database_Connection);
+   function Get_SQLite_Version (DB : Database_Connection) return String;
+
+end Manage_Db;
