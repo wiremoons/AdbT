@@ -25,21 +25,37 @@ package body Manage_DB is
    function Set_SQLite_Handle (Dbfile : String) return Database_Connection is
    begin
 
+      -- create a database descriptor with the provided path and file name
       DB_Descr := GNATCOLL.SQL.Sqlite.Setup (Dbfile);
-      --  get a task specific connection DB :=
-      --  GNATCOLL.SQL.Exec.Get_Task_Connection (DB_Descr); get a connection
-      --  in non multi tasking app
+      
+      --  get a task specific database connection:
+      --  DB := GNATCOLL.SQL.Exec.Get_Task_Connection (DB_Descr);
+      --
+      --  get a connection in non multi tasking app:
       DB := DB_Descr.Build_Connection;
       return DB;
-
+         
    end Set_SQLite_Handle;
+
+
+   function DB_Connected (DB : Database_Connection) return Boolean is
+   begin
+   
+      if GNATCOLL.SQL.Exec.Check_Connection(DB) then
+         return true;
+      else
+         Put_Line (Standard_Error,"ERROR: Connection to database failed.");
+         return false;
+      end if;
+               
+   end DB_Connected;
 
 
    function Get_SQLite_Version (DB : Database_Connection) return String is
 
-      -- Get runtime SQLite version: sqlite3_libversion()
-      -- The C version of call returns an 'Int' as per docs:
-      --   https://www.sqlite.org/c3ref/libversion.html
+      --  Get runtime SQLite version: sqlite3_libversion()
+      --  The C version of call returns an 'Int' as per docs:
+      --    https://www.sqlite.org/c3ref/libversion.html
       --
       Q : constant String :=
          "SELECT sqlite_version()";
@@ -49,15 +65,18 @@ package body Manage_DB is
       pragma Debug
          (Put_Line
              (Standard_Error,
-              "DEBUG: SQLite Version Query: " & Q));
-      -- check DB is actual connection
+              "DEBUG: SQLite version check query: " & Q));
 
-      --  read query results into 'R'
-      R.Fetch (Connection => DB, Query => Q);
-      -- check fetch works
-      Put_Line (GNATCOLL.SQL.Exec.Value (R, 0));
-
-      return ("TBC");
+      if DB_Connected (DB) then
+         --  check DB is actual connection
+         R.Fetch (Connection => DB, Query => Q);
+         return GNATCOLL.SQL.Exec.Value (R, 0);
+         --  output the use fetched query result as first value in 'R'
+      else
+         return "UNKNOWN";
+         --  no database connection - so version not known
+      end if;
+      
    end Get_SQLite_Version;
 
 
