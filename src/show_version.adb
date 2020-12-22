@@ -23,22 +23,23 @@ package body Show_Version is
    --  Linux disros using 'systemd' are required to have the file:
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
+   --  SET APPLICATION VERSION TO DISPLAY BELOW  --
+   AppVersion : constant String := "0.0.5";
 
+   procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
    -- Set if in debug build
    --------------------------------------
-   procedure Set_Debug (Is_Debug : in out Boolean) is
    begin
       -- only gets called if program is compiled as a 'debug' builderefore
       -- below variable can only below be set 'true' if this is the cas begin
       Is_Debug := True;
    end Set_Debug;
 
+   function Is_Linux return Boolean is
    ---------------------------------------
    --  Check if the OS is a Linux distro
    ---------------------------------------
-   function Is_Linux return Boolean is
-
    begin
       if Ada.Directories.Exists (OS_Release_File) then
          return True;
@@ -47,11 +48,10 @@ package body Show_Version is
       end if;
    end Is_Linux;
 
+   function Is_Windows return Boolean is
    ---------------------------------------
    --  Check if the OS is Windows
    ---------------------------------------
-   function Is_Windows return Boolean is
-
    begin
       if Ada.Directories.Exists ("c:\windows") then
          return True;
@@ -60,10 +60,10 @@ package body Show_Version is
       end if;
    end Is_Windows;
 
-   -----------------------------------------------
-   --  Clean up the 'PRETTY_NAME' and extract text
-   -----------------------------------------------
    procedure Clean_Pretty_Name (OS_Name : in out Unbounded_String) is
+      -----------------------------------------------
+      --  Clean up the 'PRETTY_NAME' and extract text
+      -----------------------------------------------
 
       Quote_Char : constant Character_Set := To_Set ('"'); --\""
 
@@ -77,11 +77,10 @@ package body Show_Version is
 
    end Clean_Pretty_Name;
 
-   ----------------------------------------
-   --  Get the OS Linux distro 'PRETTY_NAME'
-   ----------------------------------------
    function Get_Linux_OS return String is
-
+      ----------------------------------------
+      --  Get the OS Linux distro 'PRETTY_NAME'
+      ----------------------------------------
       OS_Name : Unbounded_String := Null_Unbounded_String;
 
    begin
@@ -131,13 +130,11 @@ package body Show_Version is
 
    end Get_Linux_OS;
 
-   -------------------------------------------
-   --  Collect and display version information
-   -------------------------------------------
    procedure Show is
-
-      AppVersion : constant String := "0.0.5";
-      Is_Debug   : Boolean         := False;
+      -------------------------------------------
+      --  Collect and display version information
+      -------------------------------------------
+      Is_Debug : Boolean := False;
 
    begin
       --  only gets called if compliled with: '-gnata'
