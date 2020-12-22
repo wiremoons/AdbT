@@ -29,8 +29,8 @@ package body Show_Version is
    --------------------------------------
    procedure Set_Debug (Is_Debug : in out Boolean) is
    begin
-      -- only gets called if program is    compiled as a 'debug' builderefore
-      -- below variable can only below be set 'true' if this is the cas   begin
+      -- only gets called if program is compiled as a 'debug' builderefore
+      -- below variable can only below be set 'true' if this is the cas begin
       Is_Debug := True;
    end Set_Debug;
 
@@ -97,14 +97,14 @@ package body Show_Version is
                   OS_Name := To_Unbounded_String (Line);
                   pragma Debug (New_Line (Standard_Error, 1));
                   pragma Debug
-                     (Put_Line
-                         (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
+                    (Put_Line
+                       (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
 
                   -- extract the part required
                   Clean_Pretty_Name (OS_Name);
                   pragma Debug
-                     (Put_Line
-                         (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
+                    (Put_Line
+                       (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
                end if;
             end;
          end loop;
@@ -136,16 +136,16 @@ package body Show_Version is
    -------------------------------------------
    procedure Show is
 
-      AppVersion : constant String := "0.0.3";
+      AppVersion : constant String := "0.0.4";
       Is_Debug   : Boolean         := False;
 
    begin
       --  only gets called if compliled with: '-gnata'
       pragma Debug (Set_Debug (Is_Debug));
       pragma Debug
-         (Put_Line
-             (Standard_Error,
-              "DEBUG: 'Show_Version' is running in debug mode."));
+        (Put_Line
+           (Standard_Error,
+            "DEBUG: 'Show_Version' is running in debug mode."));
       --  start output of version information
       New_Line (1);
       Put ("'" & Ada.Command_Line.Command_Name);

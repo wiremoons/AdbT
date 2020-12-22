@@ -11,56 +11,56 @@ with Ada.Directories; use Ada.Directories;
 
 package body Locate_DB is
 
+   function Get_DB_Filename
+     (Dbfile : in out Unbounded_String) return Boolean is
    -----------------------------------------------
    --  Locate a Database file
    -----------------------------------------------
-   function Get_DB_Filename
-     (dbfile : in out Unbounded_String) return Boolean is
 
-   --  Try to locate the database file name and update the passed in
-   --  Unbounded_String if found. Boolean is returned based the success
-   --  of finding the dbfile or not.
+   --  Try to locate the database file name given and update the passed in
+   --  Unbounded_String if found. Boolean is returned based the success of
+   --  finding the dbfile or not.
 
    begin
 
       --  check environment variable "ACRODB" for a database file
       if Ada.Environment_Variables.Exists ("ACRODB") then
-         dbfile :=
+         Dbfile :=
            (To_Unbounded_String
               (Ada.Environment_Variables.Value ("ACRODB", "")));
          pragma Debug
            (Put_Line
               (Standard_Error,
                "DEBUG: environment variable 'ACRODB' is: '" &
-               To_String (dbfile) & "'"));
+               To_String (Dbfile) & "'"));
 
-         if Exists (To_String (dbfile)) then
+         if Exists (To_String (Dbfile)) then
             --  environment path for database file exists - return it
             return True;
          end if;
 
          Put (Standard_Error, "ERROR: 'ACRODB' env file location given as: '");
-         Put (Standard_Error, To_String (dbfile) & "' - ");
+         Put (Standard_Error, To_String (Dbfile) & "' - ");
          Put_Line (Standard_Error, "but file location not found.");
       end if;
 
       --  check for filename 'acronyms.db' in the same directory as the program
-      dbfile :=
+      Dbfile :=
         (To_Unbounded_String
            (Containing_Directory (Ada.Command_Line.Command_Name)));
-      dbfile := dbfile & "/acronyms.db";
+      Dbfile := Dbfile & "/acronyms.db";
       pragma Debug
         (Put_Line
            (Standard_Error,
-            "DEBUG: programs local 'dbfile' path is: '" & To_String (dbfile) &
+            "DEBUG: programs local 'dbfile' path is: '" & To_String (Dbfile) &
             "'"));
 
-      if Exists (To_String (dbfile)) then
+      if Exists (To_String (Dbfile)) then
          --  constructed filename for database file exists - return it
          return True;
       else
          --  reset 'dbfile' variable as constructed file name does not exist
-         dbfile := Null_Unbounded_String;
+         Dbfile := Null_Unbounded_String;
          pragma Debug
            (Put_Line
               (Standard_Error,

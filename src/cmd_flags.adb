@@ -9,16 +9,19 @@ with Ada.Text_IO;       use Ada.Text_IO;
 with GNAT.Command_Line; use GNAT.Command_Line;
 -- use local packages
 with Show_Version;
+with Manage_Db;
 
 package body Cmd_Flags is
 
-   -------------------------------------------
-   --  Parse and manage and command line flags
-   -------------------------------------------
    function Command_Line_Flags_Exist return Boolean is
+      -------------------------------------------
+      --  Parse and manage and command line flags
+      -------------------------------------------
 
       --  GNAT.Command_Line variables and config
       Help_Option    : aliased Boolean := False;
+      Info_Option    : aliased Boolean := False;
+      Search_Option  : aliased Boolean := False;
       Version_Option : aliased Boolean := False;
       Config         : Command_Line_Configuration;
 
@@ -27,6 +30,15 @@ package body Cmd_Flags is
       Define_Switch
         (Config, Help_Option'Access, Switch => "-h", Long_Switch => "--help",
          Help => "Show command line usage for application");
+      --  define params for the database 'information' option
+      Define_Switch
+        (Config, Info_Option'Access, Switch => "-i", Long_Switch => "--info",
+         Help => "Show SQlite database information for application");
+      --  define params for the database 'search' option
+      Define_Switch
+        (Config, Search_Option'Access, Switch => "-s",
+         Long_Switch                          => "--search",
+         Help => "Search the SQLite database for the given acronym");
       --  define params for the 'version' option
       Define_Switch
         (Config, Version_Option'Access, Switch => "-v",
@@ -43,6 +55,18 @@ package body Cmd_Flags is
       --  check if 'version' was requested
       if Version_Option then
          Show_Version.Show;
+         return True;
+      end if;
+
+      --  check if 'information' was requested
+      if Info_Option then
+         Manage_Db.Show_DB_Info;
+         return True;
+      end if;
+
+      --  check if 'search' was requested
+      if Search_Option then
+         Manage_Db.Run_DB_Query;
          return True;
       end if;
 
