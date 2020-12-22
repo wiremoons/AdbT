@@ -136,7 +136,7 @@ package body Show_Version is
    -------------------------------------------
    procedure Show is
 
-      AppVersion : constant String := "0.0.4";
+      AppVersion : constant String := "0.0.5";
       Is_Debug   : Boolean         := False;
 
    begin
