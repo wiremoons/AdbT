@@ -64,12 +64,23 @@ package body Show_Version is
       -----------------------------------------------
       --  Clean up the 'PRETTY_NAME' and extract text
       -----------------------------------------------
+      --  Expects the line of text in the format:
+      --    PRETTY_NAME="Ubuntu 20.04.1 LTS"
+      --
+      --  Delete all leading text up to and including '=' leaving:
+      --    "Ubuntu 20.04.1 LTS"
+      --
+      --  This is then further cleaned up to remove both '"' characters which
+      --  are defined in the 'Quote_Char' Character_Set. The cleaned up text is
+      --  modified in place using the provided Unbounded.String resulting in a
+      --  final string of (or equivlent for other PRETTY_NAME entries):
+      --    Ubuntu 20.04.1 LTS
 
       Quote_Char : constant Character_Set := To_Set ('"'); --\""
 
    begin
       if Length (OS_Name) > 0 then
-         --  delete up to character '=' in string
+         --  delete up to (and including) character '=' in string
          Delete (OS_Name, 1, Index (OS_Name, "="));
          -- trim off quotes
          Trim (OS_Name, Quote_Char, Quote_Char);
@@ -81,6 +92,18 @@ package body Show_Version is
       ----------------------------------------
       --  Get the OS Linux distro 'PRETTY_NAME'
       ----------------------------------------
+      --  Linux systems running 'systemd' should include a file:
+      --    /etc/os-release
+      --
+      --  This file includes many entries but should have the line:
+      --     PRETTY_NAME="Ubuntu 20.04.1 LTS"
+
+      --  The file is opened and read until the above line is located. The
+      --  line is then cleaned up in the procedure 'Clean_Pretty_Name'. The
+      --  remaining text should jus be:
+      --     Ubuntu 20.04.1 LTS
+      --  that is returned as a String.
+
       OS_Name : Unbounded_String := Null_Unbounded_String;
 
    begin
