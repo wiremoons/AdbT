@@ -18,6 +18,7 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNATCOLL.SQL.Sqlite;
 -- use local packages
 with Locate_DB;
+with DB_File_Stats;
 
 package body Manage_DB is
 
@@ -26,7 +27,10 @@ package body Manage_DB is
    Dbfile   : Unbounded_String := Null_Unbounded_String;
 
    procedure Show_DB_Info is
+   -----------------------------------------
    --  Provide an overview of the database
+   -----------------------------------------
+
    begin
       -- locate and get handle to the database file
       if Locate_DB.Get_DB_Filename (Dbfile) then
@@ -34,7 +38,16 @@ package body Manage_DB is
       end if;
 
       if DB_Connected (DB) then
-         Put_Line ("Database filename: '" & To_String (Dbfile) & "'");
+         Put ("Database file name: '");
+         Put_Line (To_String (Dbfile) & "'");
+         Put ("Database full path: '");
+         Put_Line
+           (DB_File_Stats.Get_Full_Directory (To_String (Dbfile)) & "'");
+         Put ("Database file size: '");
+         Put_Line (DB_File_Stats.Get_File_Size (To_String (Dbfile)) & "'");
+         Put ("Database modified:  '");
+         Put_Line (DB_File_Stats.Get_File_Mod_Time (To_String (Dbfile)) & "'");
+         New_Line (1);
          Put_Line ("SQLite version: '" & Get_SQLite_Version (DB) & "'");
          Put_Line ("Total acronyms: '" & Get_Total_DB_Records (DB) & "'");
          Put_Line ("Last acronym entered: '" & Get_Last_Acronym (DB) & "'");
@@ -48,6 +61,10 @@ package body Manage_DB is
    end Show_DB_Info;
 
    procedure Run_DB_Query is
+      -----------------------------------------
+      --  Run a search query on the database
+      -----------------------------------------
+
       --  Q : constant GNATCOLL.SQL.SQL_Query :=
       --   GNATCOLL.SQL.SQL_Select ("Select * from Acronyms limit 5");
       --
@@ -100,6 +117,7 @@ package body Manage_DB is
             "ERROR: no database file found or unable to connect. Exit.");
          --  Set_Exit_Status (Failure); -- failed as no database found return;
       end if;
+
    end Run_DB_Query;
 
    -----------------------------------------------------------------------
@@ -107,6 +125,9 @@ package body Manage_DB is
    -----------------------------------------------------------------------
 
    function Set_SQLite_Handle (Dbfile : String) return Database_Connection is
+   -----------------------------------------
+   --  Get a handle to the database file
+   -----------------------------------------
    begin
       -- create a database descriptor with the provided path and file name
       DB_Descr := GNATCOLL.SQL.Sqlite.Setup (Dbfile);
@@ -127,9 +148,13 @@ package body Manage_DB is
          Put_Line (Standard_Error, "ERROR: Connection to database failed.");
          return False;
       end if;
+
    end DB_Connected;
 
    function Get_SQLite_Version (DB : Database_Connection) return String is
+      ---------------------------------------------------
+      --  Get the SQLite version used with the database
+      ---------------------------------------------------
       --  Get runtime SQLite version: sqlite3_libversion() The C version of
       --  call returns an 'Int' as per docs:
       --    https://www.sqlite.org/c3ref/libversion.html
@@ -150,9 +175,13 @@ package body Manage_DB is
          return "UNKNOWN";
          --  no database connection - so version not known
       end if;
+
    end Get_SQLite_Version;
 
    function Get_Total_DB_Records (DB : Database_Connection) return String is
+      -----------------------------------------------------
+      --  Get the total acronyms records in the database
+      -----------------------------------------------------
       --  Get runtime SQLite version: sqlite3_libversion() The C version of
       --  call returns an 'Int' as per docs:
       --    https://www.sqlite.org/c3ref/libversion.html
@@ -173,9 +202,13 @@ package body Manage_DB is
          return "UNKNOWN";
          --  no database connection - so version not known
       end if;
+
    end Get_Total_DB_Records;
 
    function Get_Last_Acronym (DB : Database_Connection) return String is
+      -----------------------------------------------------
+      --  Get the last ancronym entered in the database
+      -----------------------------------------------------
       --  Get runtime SQLite version: sqlite3_libversion() The C version of
       --  call returns an 'Int' as per docs:
       --    https://www.sqlite.org/c3ref/libversion.html
@@ -197,6 +230,7 @@ package body Manage_DB is
          return "UNKNOWN";
          --  no database connection - so version not known
       end if;
+
    end Get_Last_Acronym;
 
 end Manage_DB;
