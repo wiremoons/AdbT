@@ -7,3 +7,6 @@ maintainers = ["Simon Rowe <simon@wiremoons.com>"]
 maintainers-logins = ["wiremoons"]
 
 executables = ["adbt"]
+
+[[depends-on]]  # This line was added by `alr with`
+gnatcoll_sqlite = "*"  # This line was added by `alr with`
