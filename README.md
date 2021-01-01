@@ -1,4 +1,6 @@
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) ![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) 
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) ![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) <a href="https://project-types.github.io/#toy">
+  <img src="https://img.shields.io/badge/project%20type-toy-blue" alt="Toy Badge"/>
+</a>
 
 # What is 'adbt'?
 
