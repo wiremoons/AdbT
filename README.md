@@ -1,4 +1,7 @@
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) ![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) <a href="https://project-types.github.io/#toy">
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) 
+![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) 
+[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/alr.json)](https://alire.ada.dev/crates/alr.html)
+<a href="https://project-types.github.io/#toy">
   <img src="https://img.shields.io/badge/project%20type-toy-blue" alt="Toy Badge"/>
 </a>
 
@@ -57,14 +60,27 @@ These steps are explained below.
 
 ### Dependencies
 
-To be provided.
+As `adbt` uses an [SQLite database](https://sqlite.org/index.html) the following 
+packages are used to provide the support required:
 
+- [GNAT Collection - Core (GNATColl-Core)](https://github.com/AdaCore/gnatcoll-core)
+- [GNAT Collection - Database (GNATColl-DB)](https://github.com/AdaCore/gnatcoll-db)
+
+There are two approaches to ensuring these are available when building `adbt`:
+
+1. **Use Alire** : Clone this GitHub repo, and then easily add the required packages by running the 
+command: `alr with gnatcoll_sqlite` (except the defaults) and then `alr build`.
+2. **Use AdaCore GNAT Programing Studio (GPS) 2020** : will require both the above packages 
+('*GNATColl-Core*' and '*GNATColl-DB*') are built from source and added to the *AdaCore GPS 2020* 
+install. While '*GNATColl-Core*' is included with an installation of '*AdaCore GNAT Programing Studio (GPS) 2020 Community Edition*' 
+it is not current version wise to allow the addition and build of '*GNATColl-DB*' - so both need to be 
+built and installed. '*AdaCore GNAT Programing Studio (GPS) 2020 Community Edition*' does not include 
+'*GNATColl-DB*' by default - just '*GNATColl-Core*'.
 
 ### Install an Ada Compiler and Supporting Libraries
 
 Install an Ada compiler and supporting libraries. More information on installing 
 Ada can be found here: [Get Ada](http://www.getadanow.com/).
-
 
 ### Building 'adbt'
 
