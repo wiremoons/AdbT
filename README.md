@@ -1,6 +1,5 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE) 
-![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) 
-[![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/alr.json)](https://alire.ada.dev/crates/alr.html)
+![adbt](https://github.com/wiremoons/adbt/workflows/adbt/badge.svg?branch=main) [![Alire](https://img.shields.io/endpoint?url=https://alire.ada.dev/badges/alire-badge.json)](https://alire.ada.dev/)
 <a href="https://project-types.github.io/#toy">
   <img src="https://img.shields.io/badge/project%20type-toy-blue" alt="Toy Badge"/>
 </a>
