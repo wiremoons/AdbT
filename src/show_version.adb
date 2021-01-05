@@ -168,7 +168,8 @@ package body Show_Version is
             "DEBUG: 'Show_Version' is running in debug mode."));
       --  start output of version information
       New_Line (1);
-      Put ("'" & Ada.Command_Line.Command_Name);
+      Put ("'");
+      Put (Ada.Directories.Simple_Name (Ada.Command_Line.Command_Name));
       Put ("' is version: '");
       Put (AppVersion);
       Put ("' running on: '");
