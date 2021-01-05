@@ -28,7 +28,7 @@ begin
       pragma Debug (Put_Line (Standard_Error, "DEBUG: Exit with 'success'."));
       return; -- exit as flags found and executed
    else
-      Put_Line (Standard_Error, "ERROR: unable to continue. Exit.");
+      Put_Line (Standard_Error, "ERROR: no command line option selected. Exit.");
       Set_Exit_Status (Failure); -- failed as no database found
       pragma Debug (Put_Line (Standard_Error, "DEBUG: Exit with 'failure'."));
       return; -- exit as nothing provided to execute

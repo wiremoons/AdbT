@@ -73,10 +73,13 @@ package body Cmd_Flags is
       --  check if 'help' was requested
       if Help_Option then
          Display_Help (Config);
+         New_Line (1);
          return True;
       end if;
 
-      --  no flags used - return and run app as normal
+      --  no cli flags used : so display usage and return false
+      Display_Help (Config);
+      New_Line (1);
       return False;
 
    exception
