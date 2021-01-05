@@ -16,6 +16,7 @@
 with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNATCOLL.SQL.Sqlite;
+with Ada.Directories;
 -- use local packages
 with Locate_DB;
 with DB_File_Stats;
@@ -39,7 +40,8 @@ package body Manage_DB is
 
       if DB_Connected (DB) then
          Put ("Database file name: '");
-         Put_Line (To_String (Dbfile) & "'");
+         Put (Ada.Directories.Simple_Name (To_String (Dbfile)));
+         Put_Line ("'");
          Put ("Database full path: '");
          Put_Line
            (DB_File_Stats.Get_Full_Directory (To_String (Dbfile)) & "'");
