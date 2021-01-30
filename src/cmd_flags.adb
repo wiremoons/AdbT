@@ -6,8 +6,8 @@
 -------------------------------------------------------------------------------
 
 with Ada.Text_IO;       use Ada.Text_IO;
+with GNAT.Strings;      use GNAT.Strings;
 with GNAT.Command_Line; use GNAT.Command_Line;
--- use local packages
 with Show_Version;
 with Manage_Db;
 
@@ -19,9 +19,10 @@ package body Cmd_Flags is
       -------------------------------------------
 
       --  GNAT.Command_Line variables and config
-      Help_Option    : aliased Boolean := False;
-      Info_Option    : aliased Boolean := False;
-      Search_Option  : aliased Boolean := False;
+      Help_Option : aliased Boolean := False;
+      Info_Option : aliased Boolean := False;
+      -- Search_Option : aliased Boolean := False;
+      Search_Option  : aliased String_Access;
       Version_Option : aliased Boolean := False;
       Config         : Command_Line_Configuration;
 
@@ -36,8 +37,8 @@ package body Cmd_Flags is
          Help => "Show SQlite database information for application");
       --  define params for the database 'search' option
       Define_Switch
-        (Config, Search_Option'Access, Switch => "-s",
-         Long_Switch                          => "--search",
+        (Config, Search_Option'Access, Switch => "-s:",
+         Long_Switch => "--search:", Argument => "'search string'",
          Help => "Search the SQLite database for the given acronym");
       --  define params for the 'version' option
       Define_Switch
@@ -65,7 +66,19 @@ package body Cmd_Flags is
       end if;
 
       --  check if 'search' was requested
-      if Search_Option then
+      if (Search_Option'Length > 0) then
+
+         --  Debug only output for search string
+         pragma Debug
+           (Put_Line
+              (Standard_Error,
+               "DEBUG: Search string length: " &
+               Integer'Image (Search_Option'Length)));
+         pragma Debug
+           (Put_Line
+              (Standard_Error,
+               "DEBUG: Search string content: " & Search_Option.all));
+         --  call database search with search string
          Manage_Db.Run_DB_Query;
          return True;
       end if;
