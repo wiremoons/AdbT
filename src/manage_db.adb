@@ -17,6 +17,7 @@ with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNATCOLL.SQL.Sqlite;
 with Ada.Directories;
+with Ada.Integer_Text_IO;
 -- use local packages
 with Locate_DB;
 with DB_File_Stats;
@@ -73,12 +74,11 @@ package body Manage_DB is
       --  Q : constant String := "Select * from Acronyms limit 6";
       --
       --  Changed to use 'ifnull' to handle the return of any null database
-      --  records to avoid crashes
+      --  records to avoid crashes. The '?1' is the search param placeholder.
       Q : constant String :=
         "Select rowid, ifnull(Acronym,''), " & "ifnull(Definition,''), " &
         "ifnull(Description,''), " & "ifnull(Source,'') " &
-        "from Acronyms where Acronym like '" & DB_Search_String &
-        "' COLLATE NOCASE ORDER BY Source";
+        "from Acronyms where Acronym like ?1 COLLATE NOCASE ORDER BY Source";
 
       --  cursor that gets one row at a time
       R : GNATCOLL.SQL.Exec.Forward_Cursor;
@@ -92,8 +92,18 @@ package body Manage_DB is
       end if;
 
       if DB_Connected (DB) then
-         --  read query results into 'R'
-         R.Fetch (Connection => DB, Query => Q);
+         --  read query results into 'R' without parameter
+         -- R.Fetch (Connection => DB, Query => Q);
+         --
+         --  read query results into 'R' includes one parameter designated by
+         --  the '+' for SQL_Parameter in GNATCOLL.SQL.Exec
+         R.Fetch
+           (Connection => DB, Query => Q, Params => (1 => +DB_Search_String));
+
+         if not Success (DB) then
+            Put_Line
+              (Standard_Error, "ERROR: search returned '" & Error (DB) & "'");
+         end if;
 
          while GNATCOLL.SQL.Exec.Has_Row (R) loop
             Put ("ID:");
@@ -121,6 +131,11 @@ package body Manage_DB is
             "ERROR: no database file found or unable to connect. Exit.");
          --  Set_Exit_Status (Failure); -- failed as no database found return;
       end if;
+
+      -- check how many row were process in the loop above
+      Put ("'");
+      Ada.Integer_Text_IO.Put (Processed_Rows (R), Width => 0);
+      Put_Line ("' records found.");
 
    end Run_DB_Query;
 
