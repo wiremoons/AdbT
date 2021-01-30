@@ -79,7 +79,7 @@ package body Cmd_Flags is
               (Standard_Error,
                "DEBUG: Search string content: " & Search_Option.all));
          --  call database search with search string
-         Manage_Db.Run_DB_Query;
+         Manage_Db.Run_DB_Query (Search_Option.all);
          return True;
       end if;
 

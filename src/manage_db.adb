@@ -9,7 +9,7 @@
 --  Example SQlite Database access from Ada. Ada Gem:
 --  https://www.adacore.com/gems/gem-130-type-safe-database-api-part-2
 --
---  Database columns:
+--  Database table 'ACRONYMS' columns are:
 --  Acronym|Definition|Description|Source
 --
 
@@ -62,7 +62,7 @@ package body Manage_DB is
 
    end Show_DB_Info;
 
-   procedure Run_DB_Query is
+   procedure Run_DB_Query (DB_Search_String : String) is
       -----------------------------------------
       --  Run a search query on the database
       -----------------------------------------
@@ -76,7 +76,9 @@ package body Manage_DB is
       --  records to avoid crashes
       Q : constant String :=
         "Select rowid, ifnull(Acronym,''), " & "ifnull(Definition,''), " &
-        "ifnull(Description,''), " & "ifnull(Source,'') from Acronyms limit 4";
+        "ifnull(Description,''), " & "ifnull(Source,'') " &
+        "from Acronyms where Acronym like '" & DB_Search_String &
+        "' COLLATE NOCASE ORDER BY Source";
 
       --  cursor that gets one row at a time
       R : GNATCOLL.SQL.Exec.Forward_Cursor;

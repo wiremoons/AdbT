@@ -13,8 +13,8 @@ package Manage_Db is
    procedure Show_DB_Info;
    --  Provide an overview of the database
 
-   procedure Run_DB_Query;
-   --  Run a SQL query against the database handle provided
+   procedure Run_DB_Query (DB_Search_String : String);
+   --  Run a SQL query against the database uisng 'DB_Search_String'
 
    function Set_SQLite_Handle (Dbfile : String) return Database_Connection;
    --  Get a handle aligned to the database file and path 'DBfile'
