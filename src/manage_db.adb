@@ -55,6 +55,7 @@ package body Manage_DB is
          Put_Line ("SQLite version: '" & Get_SQLite_Version (DB) & "'");
          Put_Line ("Total acronyms: '" & Get_Total_DB_Records (DB) & "'");
          Put_Line ("Last acronym entered: '" & Get_Last_Acronym (DB) & "'");
+         New_Line(1);
       else
          Put_Line
            (Standard_Error,
@@ -134,9 +135,9 @@ package body Manage_DB is
       end if;
 
       -- check how many row were process in the loop above
-      Put ("'");
+      Put ("Search for '" & DB_Search_String & "' found '");
       Ada.Integer_Text_IO.Put (Processed_Rows (R), Width => 0);
-      Put_Line ("' records found.");
+      Put_Line ("' records.");
 
    end Run_DB_Query;
 

@@ -24,7 +24,7 @@ package body Show_Version is
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
-   AppVersion : constant String := "0.0.6";
+   AppVersion : constant String := "0.1.0";
 
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
@@ -203,7 +203,6 @@ package body Show_Version is
       Put_Line ("For licenses and further information visit:");
       Put_Line (" - https://github.com/wiremoons/AdbT/");
       New_Line (1);
-      Put_Line ("All is well.");
 
    end Show;
 

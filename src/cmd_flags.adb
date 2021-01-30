@@ -14,9 +14,9 @@ with Manage_Db;
 package body Cmd_Flags is
 
    function Command_Line_Flags_Exist return Boolean is
-      -------------------------------------------
-      --  Parse and manage and command line flags
-      -------------------------------------------
+      ----------------------------------------------
+      --  Parse and manage and command line flags --
+      ----------------------------------------------
 
       --  GNAT.Command_Line variables and config
       Help_Option : aliased Boolean := False;
@@ -52,15 +52,22 @@ package body Cmd_Flags is
       --  cli flags parse using config and above defined switched
       Getopt (Config);
 
-      --  check if 'version' was requested
+      --  show program 'version' if requested
       if Version_Option then
          Show_Version.Show;
          return True;
       end if;
 
-      --  check if 'information' was requested
+      --  show database 'information' if  requested
       if Info_Option then
          Manage_Db.Show_DB_Info;
+         return True;
+      end if;
+
+      --  show 'help' if requested
+      if Help_Option then
+         Display_Help (Config);
+         New_Line (1);
          return True;
       end if;
 
@@ -82,14 +89,22 @@ package body Cmd_Flags is
          return True;
       end if;
 
-      --  check if 'help' was requested
-      if Help_Option then
-         Display_Help (Config);
-         New_Line (1);
-         return True;
-      end if;
-
-      --  no cli flags used : so display usage and return false
+      --  no cli flags used - see can search can be called?
+      declare
+         Remaining_Args : constant String := Get_Argument;
+      begin
+         if (Remaining_Args'Length > 0 ) then
+            pragma Debug 
+               (Put_Line (Standard_Error, "DEBUG: Remaining argument: '" & Remaining_Args & "'"));
+            --  call database search with search string
+            Manage_Db.Run_DB_Query (Remaining_Args);
+            return True;
+         end if;
+      end;
+      
+      --  no cli params : so display version, db info, usage and return false
+      Show_Version.Show;
+      Manage_Db.Show_DB_Info;
       Display_Help (Config);
       --Try_Help;  -- alternative one line response
       New_Line (1);
