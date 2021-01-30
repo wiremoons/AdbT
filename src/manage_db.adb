@@ -10,7 +10,7 @@
 --  https://www.adacore.com/gems/gem-130-type-safe-database-api-part-2
 --
 --  Database table 'ACRONYMS' columns are:
---  Acronym|Definition|Description|Source
+--  rowid|Acronym|Definition|Description|Source
 --
 
 with Ada.Text_IO;           use Ada.Text_IO;

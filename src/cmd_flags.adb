@@ -46,9 +46,8 @@ package body Cmd_Flags is
          Long_Switch => "--version", Help => "Show version details");
       --  Additional help message as first line of 'Display_Help()'
       Set_Usage
-        (Config,
-         Usage => "[switches]", -- override default: "[switches] [arguments]";
-         Help  => "Program to manage SQLite database of acronyms.");
+        (Config, Usage => "[switches] [arguments]",
+         Help          => "Program to manage SQLite database of acronyms.");
 
       --  cli flags parse using config and above defined switched
       Getopt (Config);
@@ -92,6 +91,7 @@ package body Cmd_Flags is
 
       --  no cli flags used : so display usage and return false
       Display_Help (Config);
+      --Try_Help;  -- alternative one line response
       New_Line (1);
       return False;
 
