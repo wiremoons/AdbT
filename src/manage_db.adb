@@ -47,7 +47,8 @@ package body Manage_DB is
          Put_Line
            (DB_File_Stats.Get_Full_Directory (To_String (Dbfile)) & "'");
          Put ("Database file size: '");
-         Put_Line (DB_File_Stats.Get_File_Size (To_String (Dbfile)) & "'");
+         Put_Line
+           (DB_File_Stats.Get_File_Size (To_String (Dbfile)) & "' bytes");
          Put ("Database modified:  '");
          Put_Line (DB_File_Stats.Get_File_Mod_Time (To_String (Dbfile)) & "'");
          New_Line (1);
