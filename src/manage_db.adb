@@ -206,7 +206,8 @@ package body Manage_DB is
       --  call returns an 'Int' as per docs:
       --    https://www.sqlite.org/c3ref/libversion.html
       --
-      Q : constant String := "select count(*) from ACRONYMS";
+      -- printf "%,d" adds thousands separator
+      Q : constant String := "select printf('%,d', count(*)) from ACRONYMS";
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
