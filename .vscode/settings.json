@@ -1,8 +1,21 @@
 {
     "cSpell.words": [
+        "ACRODB",
         "Args'Length",
+        "CPUs'Image",
+        "Dbfile",
+        "Descr",
         "Getopt",
+        "NOCASE",
         "Option'Access",
-        "Option'Length"
+        "Option'Length",
+        "Sqlite",
+        "distro",
+        "distros",
+        "gnata",
+        "ifnull",
+        "libversion",
+        "printf",
+        "rowid"
     ]
 }
