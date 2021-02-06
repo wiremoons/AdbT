@@ -20,19 +20,20 @@ with System.Multiprocessors;
 package body Show_Version is
 
    package CVer is new GNAT.Compiler_Version;
-   --  Linux disros using 'systemd' are required to have the file:
+   --  Linux distros using 'systemd' are required to have the file:
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
-   AppVersion : constant String := "0.1.0";
+   AppVersion : constant String := "0.1.1";
+
 
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
    -- Set if in debug build
    --------------------------------------
    begin
-      -- only gets called if program is compiled as a 'debug' builderefore
-      -- below variable can only below be set 'true' if this is the cas begin
+      -- Only gets called if program is compiled as a 'debug' build
+      -- so variable only set 'true' if this is the case
       Is_Debug := True;
    end Set_Debug;
 
@@ -73,7 +74,7 @@ package body Show_Version is
       --  This is then further cleaned up to remove both '"' characters which
       --  are defined in the 'Quote_Char' Character_Set. The cleaned up text is
       --  modified in place using the provided Unbounded.String resulting in a
-      --  final string of (or equivlent for other PRETTY_NAME entries):
+      --  final string of (or equivalent for other PRETTY_NAME entries):
       --    Ubuntu 20.04.1 LTS
 
       Quote_Char : constant Character_Set := To_Set ('"'); --\""
@@ -120,13 +121,15 @@ package body Show_Version is
                   pragma Debug (New_Line (Standard_Error, 1));
                   pragma Debug
                     (Put_Line
-                       (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
+                       (Standard_Error,
+                        "DEBUG: Unmodified: " & OS_Name));
 
                   -- extract the part required
                   Clean_Pretty_Name (OS_Name);
                   pragma Debug
                     (Put_Line
-                       (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
+                       (Standard_Error,
+                        "DEBUG: Cleaned up: " & OS_Name));
                end if;
             end;
          end loop;
@@ -160,7 +163,7 @@ package body Show_Version is
       Is_Debug : Boolean := False;
 
    begin
-      --  only gets called if compliled with: '-gnata'
+      --  only gets called if complied with: '-gnata'
       pragma Debug (Set_Debug (Is_Debug));
       pragma Debug
         (Put_Line
