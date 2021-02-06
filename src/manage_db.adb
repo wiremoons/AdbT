@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- Package     : Maange_DB                                                   --
+-- Package     : Manage_DB                                                   --
 -- Description : Package to manage acronyms SQLite database file.            --
 -- Author      : Simon Rowe <simon@wiremoons.com>                            --
 -- License     : MIT Open Source.                                            --
 -------------------------------------------------------------------------------
 
 --
---  Example SQlite Database access from Ada. Ada Gem:
+--  Example SQLite Database access from Ada. Ada Gem:
 --  https://www.adacore.com/gems/gem-130-type-safe-database-api-part-2
 --
 --  Database table 'ACRONYMS' columns are:
@@ -37,6 +37,10 @@ package body Manage_DB is
       -- locate and get handle to the database file
       if Locate_DB.Get_DB_Filename (Dbfile) then
          DB := (Set_SQLite_Handle (To_String (Dbfile)));
+      else
+         Put_Line (Standard_Error, "ERROR: no database file found. Exit.");
+         New_Line (1);
+         return;
       end if;
 
       if DB_Connected (DB) then
@@ -44,11 +48,9 @@ package body Manage_DB is
          Put (Ada.Directories.Simple_Name (To_String (Dbfile)));
          Put_Line ("'");
          Put ("Database full path: '");
-         Put_Line
-           (DB_File_Stats.Get_Full_Directory (To_String (Dbfile)) & "'");
+         Put_Line (DB_File_Stats.Get_Full_Directory (To_String (Dbfile)) & "'");
          Put ("Database file size: '");
-         Put_Line
-           (DB_File_Stats.Get_File_Size (To_String (Dbfile)) & "' bytes");
+         Put_Line (DB_File_Stats.Get_File_Size (To_String (Dbfile)) & "' bytes");
          Put ("Database modified:  '");
          Put_Line (DB_File_Stats.Get_File_Mod_Time (To_String (Dbfile)) & "'");
          New_Line (1);
@@ -57,9 +59,7 @@ package body Manage_DB is
          Put_Line ("Last acronym entered: '" & Get_Last_Acronym (DB) & "'");
          New_Line(1);
       else
-         Put_Line
-           (Standard_Error,
-            "ERROR: no database file found or unable to connect. Exit.");
+         Put_Line (Standard_Error, "ERROR: no database file found or unable to connect. Exit.");
          --  Set_Exit_Status (Failure); -- failed as no database found return;
       end if;
 
@@ -84,7 +84,7 @@ package body Manage_DB is
 
       --  cursor that gets one row at a time
       R : GNATCOLL.SQL.Exec.Forward_Cursor;
-      --  cursor that get all rows into memory immediatly R :
+      --  cursor that get all rows into memory immediately R :
       --  GNATCOLL.SQL.Exec.Direct_Cursor;
    begin
 
@@ -161,7 +161,11 @@ package body Manage_DB is
       return DB;
    end Set_SQLite_Handle;
 
+
    function DB_Connected (DB : Database_Connection) return Boolean is
+   ------------------------------------------------
+   --  Check for a connection to the database file
+   ------------------------------------------------
    begin
       if GNATCOLL.SQL.Exec.Check_Connection (DB) then
          return True;
@@ -229,7 +233,7 @@ package body Manage_DB is
 
    function Get_Last_Acronym (DB : Database_Connection) return String is
       -----------------------------------------------------
-      --  Get the last ancronym entered in the database
+      --  Get the last acronym entered in the database
       -----------------------------------------------------
       --  Get runtime SQLite version: sqlite3_libversion() The C version of
       --  call returns an 'Int' as per docs:
