@@ -14,6 +14,6 @@ package DB_File_Stats is
    --  Get the size in bytes of a file name provided
 
    function Get_File_Mod_Time (Dbfile : String) return String;
-   --  Get the modification time for the file name providded
+   --  Get the modification time for the file name provided
 
 end DB_File_Stats;
