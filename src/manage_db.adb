@@ -22,7 +22,7 @@ with Ada.Integer_Text_IO;
 with Locate_DB;
 with DB_File_Stats;
 
-package body Manage_DB is
+package body Manage_Db is
 
    DB_Descr : GNATCOLL.SQL.Exec.Database_Description;
    DB       : GNATCOLL.SQL.Exec.Database_Connection;
@@ -57,7 +57,7 @@ package body Manage_DB is
          Put_Line ("SQLite version: '" & Get_SQLite_Version (DB) & "'");
          Put_Line ("Total acronyms: '" & Get_Total_DB_Records (DB) & "'");
          Put_Line ("Last acronym entered: '" & Get_Last_Acronym (DB) & "'");
-         New_Line(1);
+         New_Line (1);
       else
          Put_Line (Standard_Error, "ERROR: no database file found or unable to connect. Exit.");
          --  Set_Exit_Status (Failure); -- failed as no database found return;
@@ -78,14 +78,16 @@ package body Manage_DB is
       --  Changed to use 'ifnull' to handle the return of any null database
       --  records to avoid crashes. The '?1' is the search param placeholder.
       Q : constant String :=
-        "Select rowid, ifnull(Acronym,''), " & "ifnull(Definition,''), " &
-        "ifnull(Description,''), " & "ifnull(Source,'') " &
+        "Select rowid, ifnull(Acronym,''), " &
+        "ifnull(Definition,''), " &
+        "ifnull(Description,''), " &
+        "ifnull(Source,'') " &
         "from Acronyms where Acronym like ?1 COLLATE NOCASE ORDER BY Source";
 
       --  cursor that gets one row at a time
       R : GNATCOLL.SQL.Exec.Forward_Cursor;
-      --  cursor that get all rows into memory immediately R :
-      --  GNATCOLL.SQL.Exec.Direct_Cursor;
+   --  cursor that get all rows into memory immediately R :
+   --  GNATCOLL.SQL.Exec.Direct_Cursor;
    begin
 
       -- locate and get handle to the database file
@@ -99,12 +101,10 @@ package body Manage_DB is
          --
          --  read query results into 'R' includes one parameter designated by
          --  the '+' for SQL_Parameter in GNATCOLL.SQL.Exec
-         R.Fetch
-           (Connection => DB, Query => Q, Params => (1 => +DB_Search_String));
+         R.Fetch (Connection => DB, Query => Q, Params => (1 => +DB_Search_String));
 
          if not Success (DB) then
-            Put_Line
-              (Standard_Error, "ERROR: search returned '" & Error (DB) & "'");
+            Put_Line (Standard_Error, "ERROR: search returned '" & Error (DB) & "'");
          end if;
 
          while GNATCOLL.SQL.Exec.Has_Row (R) loop
@@ -128,9 +128,7 @@ package body Manage_DB is
             GNATCOLL.SQL.Exec.Next (R);
          end loop;
       else
-         Put_Line
-           (Standard_Error,
-            "ERROR: no database file found or unable to connect. Exit.");
+         Put_Line (Standard_Error, "ERROR: no database file found or unable to connect. Exit.");
          --  Set_Exit_Status (Failure); -- failed as no database found return;
       end if;
 
@@ -161,7 +159,6 @@ package body Manage_DB is
       return DB;
    end Set_SQLite_Handle;
 
-
    function DB_Connected (DB : Database_Connection) return Boolean is
    ------------------------------------------------
    --  Check for a connection to the database file
@@ -188,14 +185,13 @@ package body Manage_DB is
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug
-        (Put_Line (Standard_Error, "DEBUG: SQLite version check query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "DEBUG: SQLite version check query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-         --  output the use fetched query result as first value in 'R'
+      --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
@@ -216,14 +212,13 @@ package body Manage_DB is
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug
-        (Put_Line (Standard_Error, "DEBUG: Total records count query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "DEBUG: Total records count query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-         --  output the use fetched query result as first value in 'R'
+      --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
@@ -239,19 +234,17 @@ package body Manage_DB is
       --  call returns an 'Int' as per docs:
       --    https://www.sqlite.org/c3ref/libversion.html
       --
-      Q : constant String :=
-        "SELECT Acronym FROM acronyms Order by rowid DESC LIMIT 1";
+      Q : constant String := "SELECT Acronym FROM acronyms Order by rowid DESC LIMIT 1";
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug
-        (Put_Line (Standard_Error, "DEBUG: Last acronym entered query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "DEBUG: Last acronym entered query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-         --  output the use fetched query result as first value in 'R'
+      --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
@@ -259,4 +252,4 @@ package body Manage_DB is
 
    end Get_Last_Acronym;
 
-end Manage_DB;
+end Manage_Db;

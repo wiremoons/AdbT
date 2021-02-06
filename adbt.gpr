@@ -16,6 +16,9 @@
 -- To reset and clean up run:
 --   gprclean
 --
+-- To format code file with Pretty Print (gnatpp) run:
+--   gnatpp -Padbt.gpr
+--
 
 -- ensure support for the GNAT Collection SQLite packages:
 with "gnatcoll_sqlite.gpr";
@@ -57,8 +60,9 @@ project AdbT is
       for Switches ("ada") use ("-Es", "-g", "-static");
    end Binder;
 
+   -- to apply run :  gnatpp -Padbt.gpr
    package Pretty_Printer is
-      for Default_Switches ("ada") use ("-A1", "-A2", "-A3", "-A4", "-A5", "--no-separate-is", "--no-separate-loop-then");
+      for Default_Switches ("ada") use ("-i3", "-M120", "-v", "-w", "-rnb", "-A1", "-A2", "-A3", "-A4", "-A5", "--no-separate-is", "--no-separate-loop-then");
    end Pretty_Printer;
 
    package Ide is

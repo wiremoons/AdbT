@@ -26,7 +26,6 @@ package body Show_Version is
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
    AppVersion : constant String := "0.1.1";
 
-
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
    -- Set if in debug build
@@ -119,17 +118,11 @@ package body Show_Version is
                   --  get the identified line from the file
                   OS_Name := To_Unbounded_String (Line);
                   pragma Debug (New_Line (Standard_Error, 1));
-                  pragma Debug
-                    (Put_Line
-                       (Standard_Error,
-                        "DEBUG: Unmodified: " & OS_Name));
+                  pragma Debug (Put_Line (Standard_Error, "DEBUG: Unmodified: " & OS_Name));
 
                   -- extract the part required
                   Clean_Pretty_Name (OS_Name);
-                  pragma Debug
-                    (Put_Line
-                       (Standard_Error,
-                        "DEBUG: Cleaned up: " & OS_Name));
+                  pragma Debug (Put_Line (Standard_Error, "DEBUG: Cleaned up: " & OS_Name));
                end if;
             end;
          end loop;
@@ -165,10 +158,7 @@ package body Show_Version is
    begin
       --  only gets called if complied with: '-gnata'
       pragma Debug (Set_Debug (Is_Debug));
-      pragma Debug
-        (Put_Line
-           (Standard_Error,
-            "DEBUG: 'Show_Version' is running in debug mode."));
+      pragma Debug (Put_Line (Standard_Error, "DEBUG: 'Show_Version' is running in debug mode."));
       --  start output of version information
       New_Line (1);
       Put ("'");

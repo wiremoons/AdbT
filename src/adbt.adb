@@ -17,7 +17,8 @@ procedure AdbT is
 begin
 
    --  print info on how to compile a 'release' version
-   pragma Debug (Put_Line (Standard_Error, "DEBUG: build a 'release' version with: gprclean && gprbuild -XBUILD=release"));
+   pragma Debug
+     (Put_Line (Standard_Error, "DEBUG: build a 'release' version with: gprclean && gprbuild -XBUILD=release"));
 
    --  check for any command line flags to execute
    if Cmd_Flags.Command_Line_Flags_Exist then

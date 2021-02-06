@@ -29,25 +29,35 @@ package body Cmd_Flags is
    begin
       --  define params for the 'help' option
       Define_Switch
-        (Config, Help_Option'Access, Switch => "-h", Long_Switch => "--help",
-         Help => "Show command line usage for application");
+        (Config,
+         Help_Option'Access,
+         Switch      => "-h",
+         Long_Switch => "--help",
+         Help        => "Show command line usage for application");
       --  define params for the database 'information' option
       Define_Switch
-        (Config, Info_Option'Access, Switch => "-i", Long_Switch => "--info",
-         Help => "Show SQlite database information for application");
+        (Config,
+         Info_Option'Access,
+         Switch      => "-i",
+         Long_Switch => "--info",
+         Help        => "Show SQlite database information for application");
       --  define params for the database 'search' option
       Define_Switch
-        (Config, Search_Option'Access, Switch => "-s:",
-         Long_Switch => "--search:", Argument => "'search string'",
-         Help => "Search the SQLite database for the given acronym");
+        (Config,
+         Search_Option'Access,
+         Switch      => "-s:",
+         Long_Switch => "--search:",
+         Argument    => "'search string'",
+         Help        => "Search the SQLite database for the given acronym");
       --  define params for the 'version' option
       Define_Switch
-        (Config, Version_Option'Access, Switch => "-v",
-         Long_Switch => "--version", Help => "Show version details");
+        (Config,
+         Version_Option'Access,
+         Switch      => "-v",
+         Long_Switch => "--version",
+         Help        => "Show version details");
       --  Additional help message as first line of 'Display_Help()'
-      Set_Usage
-        (Config, Usage => "[switches] [arguments]",
-         Help          => "Program to manage SQLite database of acronyms.");
+      Set_Usage (Config, Usage => "[switches] [arguments]", Help => "Program to manage SQLite database of acronyms.");
 
       --  cli flags parse using config and above defined switched
       Getopt (Config);
@@ -76,14 +86,8 @@ package body Cmd_Flags is
 
          --  Debug only output for search string
          pragma Debug
-           (Put_Line
-              (Standard_Error,
-               "DEBUG: Search string length: " &
-               Integer'Image (Search_Option'Length)));
-         pragma Debug
-           (Put_Line
-              (Standard_Error,
-               "DEBUG: Search string content: " & Search_Option.all));
+           (Put_Line (Standard_Error, "DEBUG: Search string length: " & Integer'Image (Search_Option'Length)));
+         pragma Debug (Put_Line (Standard_Error, "DEBUG: Search string content: " & Search_Option.all));
          --  call database search with search string
          Manage_Db.Run_DB_Query (Search_Option.all);
          return True;
@@ -93,15 +97,14 @@ package body Cmd_Flags is
       declare
          Remaining_Args : constant String := Get_Argument;
       begin
-         if (Remaining_Args'Length > 0 ) then
-            pragma Debug 
-               (Put_Line (Standard_Error, "DEBUG: Remaining argument: '" & Remaining_Args & "'"));
+         if (Remaining_Args'Length > 0) then
+            pragma Debug (Put_Line (Standard_Error, "DEBUG: Remaining argument: '" & Remaining_Args & "'"));
             --  call database search with search string
             Manage_Db.Run_DB_Query (Remaining_Args);
             return True;
          end if;
       end;
-      
+
       --  no cli params : so display version, db info, usage and return false
       Show_Version.Show;
       Manage_Db.Show_DB_Info;
@@ -113,9 +116,7 @@ package body Cmd_Flags is
    exception
       when Invalid_Switch =>
          New_Line (1);
-         Put_Line
-           (Standard_Error,
-            "Exception caught: caused by the use of an invalid command line switch.");
+         Put_Line (Standard_Error, "Exception caught: caused by the use of an invalid command line switch.");
          New_Line (1);
          Display_Help (Config);
          return True;

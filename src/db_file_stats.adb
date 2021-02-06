@@ -31,17 +31,13 @@ package body DB_File_Stats is
       when Ada.Directories.Name_Error =>
          --  error with provided file name
          New_Line (2);
-         Put
-           (Standard_Error,
-            "ERROR: DB_File_Stats.Get_File_Size() NAME for: '");
+         Put (Standard_Error, "ERROR: DB_File_Stats.Get_File_Size() NAME for: '");
          Put_Line (Standard_Error, Dbfile & "'.");
          return ("ERROR");
       when Constraint_Error =>
          --  error with provided file name
          New_Line (2);
-         Put
-           (Standard_Error,
-            "ERROR: DB_File_Stats.Get_File_Size() SIZE for: '");
+         Put (Standard_Error, "ERROR: DB_File_Stats.Get_File_Size() SIZE for: '");
          Put_Line (Standard_Error, Dbfile & "'.");
          return ("ERROR");
 
