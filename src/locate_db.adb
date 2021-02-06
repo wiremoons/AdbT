@@ -12,7 +12,8 @@ with Ada.Directories; use Ada.Directories;
 package body Locate_DB is
 
    function Get_DB_Filename
-     (Dbfile : in out Unbounded_String) return Boolean is
+     (Dbfile : in out Unbounded_String) return Boolean
+   is
    -----------------------------------------------
    --  Locate a Database file
    -----------------------------------------------
@@ -32,7 +33,8 @@ package body Locate_DB is
            (Put_Line
               (Standard_Error,
                "DEBUG: environment variable 'ACRODB' is: '" &
-               To_String (Dbfile) & "'"));
+               To_String (Dbfile) &
+               "'"));
 
          if Exists (To_String (Dbfile)) then
             --  environment path for database file exists - return it
@@ -52,7 +54,8 @@ package body Locate_DB is
       pragma Debug
         (Put_Line
            (Standard_Error,
-            "DEBUG: programs local 'dbfile' path is: '" & To_String (Dbfile) &
+            "DEBUG: programs local 'dbfile' path is: '" &
+            To_String (Dbfile) &
             "'"));
 
       if Exists (To_String (Dbfile)) then
