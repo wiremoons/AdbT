@@ -93,6 +93,9 @@ package body Manage_Db is
       -- locate and get handle to the database file
       if Locate_DB.Get_DB_Filename (Dbfile) then
          DB := (Set_SQLite_Handle (To_String (Dbfile)));
+      else
+         Put_Line (Standard_Error, "ERROR: no database file found to support search request. Exit.");
+         return;
       end if;
 
       if DB_Connected (DB) then
@@ -128,7 +131,8 @@ package body Manage_Db is
             GNATCOLL.SQL.Exec.Next (R);
          end loop;
       else
-         Put_Line (Standard_Error, "ERROR: no database file found or unable to connect. Exit.");
+         Put_Line (Standard_Error, "ERROR: database connection failed. Exit.");
+         return;
          --  Set_Exit_Status (Failure); -- failed as no database found return;
       end if;
 
@@ -185,7 +189,7 @@ package body Manage_Db is
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug (Put_Line (Standard_Error, "DEBUG: SQLite version check query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "[DEBUG] SQLite version check query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection
@@ -212,7 +216,7 @@ package body Manage_Db is
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug (Put_Line (Standard_Error, "DEBUG: Total records count query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "[DEBUG] Total records count query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection
@@ -238,7 +242,7 @@ package body Manage_Db is
       R : GNATCOLL.SQL.Exec.Direct_Cursor;
 
    begin
-      pragma Debug (Put_Line (Standard_Error, "DEBUG: Last acronym entered query: " & Q));
+      pragma Debug (Put_Line (Standard_Error, "[DEBUG] Last acronym entered query: " & Q));
 
       if DB_Connected (DB) then
          --  check DB is actual connection

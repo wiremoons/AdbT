@@ -26,7 +26,7 @@ package body Locate_DB is
       if Ada.Environment_Variables.Exists ("ACRODB") then
          Dbfile := (To_Unbounded_String (Ada.Environment_Variables.Value ("ACRODB", "")));
          pragma Debug
-           (Put_Line (Standard_Error, "DEBUG: environment variable 'ACRODB' is: '" & To_String (Dbfile) & "'"));
+           (Put_Line (Standard_Error, "[DEBUG] environment variable 'ACRODB' is: '" & To_String (Dbfile) & "'"));
 
          if Exists (To_String (Dbfile)) then
             --  environment path for database file exists - return it
@@ -41,7 +41,7 @@ package body Locate_DB is
       --  check for filename 'acronyms.db' in the same directory as the program
       Dbfile := (To_Unbounded_String (Containing_Directory (Ada.Command_Line.Command_Name)));
       Dbfile := Dbfile & "/acronyms.db";
-      pragma Debug (Put_Line (Standard_Error, "DEBUG: programs local 'dbfile' path is: '" & To_String (Dbfile) & "'"));
+      pragma Debug (Put_Line (Standard_Error, "[DEBUG] programs local 'dbfile' path is: '" & To_String (Dbfile) & "'"));
 
       if Exists (To_String (Dbfile)) then
          --  constructed filename for database file exists - return it
@@ -49,7 +49,7 @@ package body Locate_DB is
       else
          --  reset 'dbfile' variable as constructed file name does not exist
          Dbfile := Null_Unbounded_String;
-         pragma Debug (Put_Line (Standard_Error, "DEBUG: No programs local database file found"));
+         pragma Debug (Put_Line (Standard_Error, "[DEBUG] No programs local database file found"));
          return False;
       end if;
    end Get_DB_Filename;

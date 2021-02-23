@@ -86,8 +86,8 @@ package body Cmd_Flags is
 
          --  Debug only output for search string
          pragma Debug
-           (Put_Line (Standard_Error, "DEBUG: Search string length: " & Integer'Image (Search_Option'Length)));
-         pragma Debug (Put_Line (Standard_Error, "DEBUG: Search string content: " & Search_Option.all));
+           (Put_Line (Standard_Error, "[DEBUG] Search string length: " & Integer'Image (Search_Option'Length)));
+         pragma Debug (Put_Line (Standard_Error, "[DEBUG] Search string content: " & Search_Option.all));
          --  call database search with search string
          Manage_Db.Run_DB_Query (Search_Option.all);
          return True;
@@ -98,7 +98,7 @@ package body Cmd_Flags is
          Remaining_Args : constant String := Get_Argument;
       begin
          if (Remaining_Args'Length > 0) then
-            pragma Debug (Put_Line (Standard_Error, "DEBUG: Remaining argument: '" & Remaining_Args & "'"));
+            pragma Debug (Put_Line (Standard_Error, "[DEBUG]: Remaining argument: '" & Remaining_Args & "'"));
             --  call database search with search string
             Manage_Db.Run_DB_Query (Remaining_Args);
             return True;
