@@ -24,7 +24,7 @@ package body Show_Version is
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
-   AppVersion : constant String := "0.1.1";
+   AppVersion : constant String := "0.1.2";
 
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
@@ -181,7 +181,7 @@ package body Show_Version is
       Put (" @ ");
       Put (GNAT.Source_Info.Compilation_Time);
       Put_Line (".");
-      Put_Line ("Copyright (c) 2020 Simon Rowe.");
+      Put_Line ("Copyright (c) 2021 Simon Rowe.");
       New_Line (1);
       Put ("Ada source built as '");
       if Is_Debug then
