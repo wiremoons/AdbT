@@ -19,6 +19,8 @@
 -- To format code file with Pretty Print (gnatpp) run:
 --   gnatpp -Padbt.gpr
 --
+-- To build with Alire package manager tool 'alr' run:
+--   alr build --release
 
 -- ensure support for the GNAT Collection SQLite packages:
 with "gnatcoll_sqlite.gpr";
@@ -28,7 +30,7 @@ project AdbT is
    -- set up for 'debug' and 'release' build options
    type Build_Type is
       ("release", "debug");
-   Build : Build_Type := external ("BUILD", "debug");
+   Build : Build_Type := external ("BUILD", "release");
 
    -- set up for project directory structure 
    for Languages use ("Ada");
