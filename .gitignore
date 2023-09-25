@@ -16,6 +16,9 @@ obj/*
 # Alire project 'alire/' contents
 alire/*
 
+# Alire project 'config/' contents
+config/*
+
 # Alire project '.lock' files
 *.lock
 
