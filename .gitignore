@@ -19,6 +19,9 @@ alire/*
 # Alire project 'config/' contents
 config/*
 
+# GNAT Studio added .clang-format file
+src/.clang-format
+
 # Alire project '.lock' files
 *.lock
 
