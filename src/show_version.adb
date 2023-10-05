@@ -15,6 +15,7 @@ with Ada.Strings.Fixed;
 with Ada.Command_Line;
 with GNAT.Source_Info;
 with GNAT.Compiler_Version;
+with GNAT.Sockets;
 with System.Multiprocessors;
 
 package body Show_Version is
@@ -24,7 +25,7 @@ package body Show_Version is
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
-   AppVersion : constant String := "0.1.2";
+   AppVersion : constant String := "0.1.4";
 
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
@@ -165,7 +166,23 @@ package body Show_Version is
       Put (Ada.Directories.Simple_Name (Ada.Command_Line.Command_Name));
       Put ("' is version: '");
       Put (AppVersion);
-      Put ("' running on: '");
+      Put ("' built in '");
+      if Is_Debug then
+         Put ("Debug");
+      else
+         Put ("Release");
+      end if;
+      Put_Line ("' mode.");
+      Put ("Ada source compiled on: '");
+      Put (GNAT.Source_Info.Compilation_ISO_Date);
+      Put (" @ ");
+      Put (GNAT.Source_Info.Compilation_Time);
+      Put ("' using GNAT complier version: '");
+      Put (CVer.Version);
+      Put_Line ("'.");
+      Put ("Excuting on computer: '");
+      Put (GNAT.Sockets.Host_Name);
+      Put ("' running '");
       if Is_Linux then
          Put (Get_Linux_OS);
       elsif Is_Windows then
@@ -176,26 +193,10 @@ package body Show_Version is
       Put ("' with");
       Put (System.Multiprocessors.Number_Of_CPUs'Image);
       Put_Line (" CPU cores.");
-      Put ("Compiled on: ");
-      Put (GNAT.Source_Info.Compilation_ISO_Date);
-      Put (" @ ");
-      Put (GNAT.Source_Info.Compilation_Time);
-      Put_Line (".");
-      Put_Line ("Copyright (c) 2021 Simon Rowe.");
-      New_Line (1);
-      Put ("Ada source built as '");
-      if Is_Debug then
-         Put ("debug");
-      else
-         Put ("release");
-      end if;
-      Put ("' using GNAT complier version: '");
-      Put (CVer.Version);
-      Put_Line ("'.");
+      Put_Line ("Copyright (c) 2021-2023 Simon Rowe.");
       New_Line (1);
       Put_Line ("For licenses and further information visit:");
       Put_Line (" - https://github.com/wiremoons/AdbT/");
-      New_Line (1);
 
    end Show;
 
