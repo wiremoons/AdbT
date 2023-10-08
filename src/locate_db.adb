@@ -49,7 +49,7 @@ package body Locate_DB is
       else
          --  reset 'dbfile' variable as constructed file name does not exist
          Dbfile := Null_Unbounded_String;
-         pragma Debug (Put_Line (Standard_Error, "[DEBUG] No programs local database file found"));
+         pragma Debug (Put_Line (Standard_Error, "[DEBUG] No local database file found."));
          return False;
       end if;
    end Get_DB_Filename;
