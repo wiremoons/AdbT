@@ -10,7 +10,7 @@
 --  https://www.adacore.com/gems/gem-130-type-safe-database-api-part-2
 --
 --  Database table 'ACRONYMS' columns are:
---  rowid|Acronym|Definition|Description|Source
+--  rowid|Acronym|Changed|Definition|Description|Key|Source 
 --
 
 with Ada.Text_IO;           use Ada.Text_IO;
@@ -21,6 +21,7 @@ with Ada.Integer_Text_IO;
 -- use local packages
 with Locate_DB;
 with DB_File_Stats;
+with Misc_Utils;
 
 package body Manage_Db is
 
@@ -78,10 +79,12 @@ package body Manage_Db is
       --  Changed to use 'ifnull' to handle the return of any null database
       --  records to avoid crashes. The '?1' is the search param placeholder.
       Q : constant String :=
-        "Select rowid, ifnull(Acronym,''), " &
+        "Select rowid, " &
+        "ifnull(Acronym,''), " &
         "ifnull(Definition,''), " &
-        "ifnull(Description,''), " &
-        "ifnull(Source,'') " &
+        "ifnull(Source,''), " &
+        "ifnull(Changed,''), " &
+        "ifnull(Description,'') " &
         "from Acronyms where Acronym like ?1 COLLATE NOCASE ORDER BY Source";
 
       --  cursor that gets one row at a time
@@ -99,6 +102,7 @@ package body Manage_Db is
       end if;
 
       if DB_Connected (DB) then
+         pragma Debug (Put_Line (Standard_Error, "[DEBUG] SQL query is: '" & Q & "'"));
          --  read query results into 'R' without parameter
          -- R.Fetch (Connection => DB, Query => Q);
          --
@@ -114,19 +118,29 @@ package body Manage_Db is
             Put ("ID:");
             Set_Col (15);
             Put_Line (GNATCOLL.SQL.Exec.Value (R, 0));
+            --  rowid column
             Put ("ACRONYM:");
             Set_Col (15);
             Put ("'");
             Put (GNATCOLL.SQL.Exec.Value (R, 1));
+             --  acronym column
             Put ("' is: '");
             Put_Line (GNATCOLL.SQL.Exec.Value (R, 2) & "'.");
-            Put ("DESCRIPTION:");
-            Set_Col (15);
-            Put_Line (GNATCOLL.SQL.Exec.Value (R, 3));
+             --  definition column
             Put ("SOURCE:");
             Set_Col (15);
             Put ("'");
-            Put_Line (GNATCOLL.SQL.Exec.Value (R, 4) & "'.");
+            Put_Line (GNATCOLL.SQL.Exec.Value (R, 3) & "'.");
+            --  decscription source
+            Put ("LAST UPDATE:");
+            Set_Col (15);
+            Put ("'");
+            Put_Line (Misc_Utils.Convert_Epoch_String (GNATCOLL.SQL.Exec.Value (R, 4)) & "'");
+            --  decscription source
+            Put ("DESCRIPTION:");
+            Set_Col (15);
+            Put_Line (GNATCOLL.SQL.Exec.Value (R, 5));
+            --  decscription column
             New_Line (1);
             GNATCOLL.SQL.Exec.Next (R);
          end loop;
