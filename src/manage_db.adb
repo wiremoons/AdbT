@@ -10,7 +10,7 @@
 --  https://www.adacore.com/gems/gem-130-type-safe-database-api-part-2
 --
 --  Database table 'ACRONYMS' columns are:
---  rowid|Acronym|Changed|Definition|Description|Key|Source 
+--  rowid|Acronym|Changed|Definition|Description|Key|Source
 --
 
 with Ada.Text_IO;           use Ada.Text_IO;
@@ -79,18 +79,14 @@ package body Manage_Db is
       --  Changed to use 'ifnull' to handle the return of any null database
       --  records to avoid crashes. The '?1' is the search param placeholder.
       Q : constant String :=
-        "Select rowid, " &
-        "ifnull(Acronym,''), " &
-        "ifnull(Definition,''), " &
-        "ifnull(Source,''), " &
-        "ifnull(Changed,''), " &
-        "ifnull(Description,'') " &
+        "Select rowid, " & "ifnull(Acronym,''), " & "ifnull(Definition,''), " & "ifnull(Source,''), " &
+        "ifnull(Changed,''), " & "ifnull(Description,'') " &
         "from Acronyms where Acronym like ?1 COLLATE NOCASE ORDER BY Source";
 
       --  cursor that gets one row at a time
       R : GNATCOLL.SQL.Exec.Forward_Cursor;
-   --  cursor that get all rows into memory immediately R :
-   --  GNATCOLL.SQL.Exec.Direct_Cursor;
+      --  cursor that get all rows into memory immediately R :
+      --  GNATCOLL.SQL.Exec.Direct_Cursor;
    begin
 
       -- locate and get handle to the database file
@@ -123,10 +119,10 @@ package body Manage_Db is
             Set_Col (15);
             Put ("'");
             Put (GNATCOLL.SQL.Exec.Value (R, 1));
-             --  acronym column
+            --  acronym column
             Put ("' is: '");
             Put_Line (GNATCOLL.SQL.Exec.Value (R, 2) & "'.");
-             --  definition column
+            --  definition column
             Put ("SOURCE:");
             Set_Col (15);
             Put ("'");
@@ -209,7 +205,7 @@ package body Manage_Db is
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-      --  output the use fetched query result as first value in 'R'
+         --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
@@ -236,7 +232,7 @@ package body Manage_Db is
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-      --  output the use fetched query result as first value in 'R'
+         --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
@@ -262,7 +258,7 @@ package body Manage_Db is
          --  check DB is actual connection
          R.Fetch (Connection => DB, Query => Q);
          return GNATCOLL.SQL.Exec.Value (R, 0);
-      --  output the use fetched query result as first value in 'R'
+         --  output the use fetched query result as first value in 'R'
       else
          return "UNKNOWN";
          --  no database connection - so version not known
