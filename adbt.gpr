@@ -32,6 +32,9 @@ project AdbT is
       ("release", "debug");
    Build : Build_Type := external ("BUILD", "release");
 
+   -- detect processors for 'Binder' usage below
+   Processors := external ("PROCESSORS", "0");
+
    -- set up for project directory structure 
    for Languages use ("Ada");
    for Source_Dirs use ("src/**");
@@ -54,7 +57,7 @@ project AdbT is
    end Compiler;
 
    package Builder is
-      for Switches ("ada") use ("-s", "-j0");
+      for Switches ("ada") use ("-s", "-j" & Processors);
    end Builder;
 
    -- static build to include 'gnatlib'
