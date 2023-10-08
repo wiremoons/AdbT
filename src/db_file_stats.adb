@@ -6,7 +6,6 @@
 -------------------------------------------------------------------------------
 with Ada.Directories; use Ada.Directories;
 with Ada.Text_IO;     use Ada.Text_IO;
--- with Text_IO.Editing;
 with Ada.Strings.Fixed;
 with Ada.IO_Exceptions;
 with Ada.Calendar.Formatting; use Ada.Calendar.Formatting;
@@ -34,7 +33,7 @@ package body DB_File_Stats is
          Put (Standard_Error, "ERROR: DB_File_Stats.Get_File_Size() NAME for: '");
          Put_Line (Standard_Error, Dbfile & "'.");
          return ("ERROR");
-      when Constraint_Error =>
+      when Constraint_Error           =>
          --  error with provided file name
          New_Line (2);
          Put (Standard_Error, "ERROR: DB_File_Stats.Get_File_Size() SIZE for: '");
