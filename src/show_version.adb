@@ -25,7 +25,7 @@ package body Show_Version is
    OS_Release_File : constant String := "/etc/os-release";
    F               : File_Type;
    --  SET APPLICATION VERSION TO DISPLAY BELOW  --
-   AppVersion : constant String := "0.1.5";
+   AppVersion : constant String := "0.1.6";
 
    procedure Set_Debug (Is_Debug : in out Boolean) is
    --------------------------------------
