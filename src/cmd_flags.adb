@@ -107,6 +107,7 @@ package body Cmd_Flags is
 
       --  no cli params : so display version, db info, usage and return false
       Show_Version.Show;
+      New_Line (1);
       Manage_Db.Show_DB_Info;
       Display_Help (Config);
       --Try_Help;  -- alternative one line response
