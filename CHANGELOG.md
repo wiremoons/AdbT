@@ -1,3 +1,6 @@
+## v0.1.6
+- Add new line between version and database info outputs on default execution.
+
 ## v0.1.5
 - Add `adbt.gpr` build option to define processor used via env variable `PROCESSORS`.
 - Add additional 'release' build info to include using Alire.
